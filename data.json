@@ -1,0 +1,19 @@
+[
+    {
+      "id": 1,
+      "username": "tito",
+      "domisili": "surabaya"
+    },
+    
+    {
+      "id": 2,
+      "username": "daffa",
+      "domisili": "jakarta"
+    },
+  
+    {
+      "id": 3,
+      "username": "rico",
+      "domisili": "sidoarjo"
+    }
+  ]

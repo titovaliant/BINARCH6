@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LOGIN ID</title>
+        <link rel="stylesheet" href="css/main.css" />
+        <style>
+            .contents{
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border: 1px solid black;
+                border-width:2px;
+                padding : 15px;
+            }
+            .form-element{
+                margin: 8px;
+                align-items: left;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="contents">
+            
+            <h1 align="center">LOGIN ID GAME</h1>
+            <h2 align="center"> Isi data diri terlebih dahulu</h2>
+            <div class="formContent">
+                <form id="formDataDiri">
+                    <div class="form-element">
+                        <label for="nama">Username:</label><br>
+                        <input type="text" id="nama" name="nama" placeholder="Username Anda" required><br>
+                    </div>
+                    <div class="form-element">
+                        <label for="password">Password:</label><br>
+                        <input type="text" id="password" name="password" placeholder="Password Anda" required><br>
+                    </div>
+                    <div class="form-element">
+                        <input type="submit" value="Submit Data">
+                    </div>
+                </form>
+            </div>
+            <h3 id="messageAfterSubmit"></h3>
+            <a href="/game">
+                <button class="button-intro" disabled id="playgamebutton">
+                PLAY GAME
+                </button>
+            </a>
+        </div>
+        
+        <script>
+            // masukkan kodemu di sini
+            const submitAction = document.getElementById("formDataDiri");
+            submitAction.addEventListener("submit", function(){
+                    const inputNama = document.getElementById("nama").value;
+                    const inputPassword = document.getElementById("password").value;
+                    // const hiddenMessage = "Halo "+inputNama+" dari "+inputDomisili+" selamat bermain!";
+                    console.log("Nama : ",inputNama);
+                    console.log("Password : ",inputPassword);
+
+                    fetch("http://localhost:4100/users/login",
+                    {
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body:  JSON.stringify({username: inputNama, password: inputPassword})
+                    })
+                    
+                    .then( response => response.json() )
+                    
+                    .then( response => {
+                    // Do something with response.
+                    console.log(response)
+                    if (response != "Gagal Login") {
+                        document.getElementById("messageAfterSubmit").innerText = "WELCOME " + response[0].username;
+                        document.getElementById("playgamebutton").removeAttribute('disabled');
+                    }
+                    else {
+                        document.getElementById("messageAfterSubmit").innerText = "Username/Password anda salah";
+                        document.getElementById("playgamebutton").removeAttribute('enabled');
+                    }
+                    });
+                    
+                    event.preventDefault();
+            });
+        </script>
+    </body>
+</html>
